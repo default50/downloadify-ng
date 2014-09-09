@@ -14,16 +14,16 @@ def rec_song(player, e = None):
         global rec_pid
         global trackid
         if rec_pid != None :
-            os.killpg(rec_pid, signal.SIGQUIT)
+            os.killpg(rec_pid, signal.SIGTERM)
         if trackid == None :
             trackid = player.props.metadata['mpris:trackid']
-        elif trackid == player.props.metadata['mpris:trackid']
+        elif trackid == player.props.metadata['mpris:trackid'] :
             print("Exit!")
             sys.exit()
         print('Now recording ' + trackid)
         location = '{trackNumber} - {artist} - {title}'.format(trackNumber=player.props.metadata['xesam:trackNumber'], artist=player.props.metadata['xesam:artist'][0], title=player.props.metadata['xesam:title'])
-        #cmd = 'gst-launch-1.0 pulsesrc device={pulse_src} ! queue ! audio/x-raw,format=S16LE,rate=44100,channels=2 ! audioconvert ! lamemp3enc target=quality quality=2 ! filesink location="{location}.mp3"'.format(pulse_src=pulse_src, location=location)
-        cmd = 'yes > /dev/null'
+        cmd = 'gst-launch-1.0 pulsesrc device={pulse_src} ! queue ! audio/x-raw,format=S16LE,rate=44100,channels=2 ! audioconvert ! lamemp3enc target=quality quality=2 ! filesink location="{location}.mp3"'.format(pulse_src=pulse_src, location=location)
+        #cmd = 'yes > /dev/null'
         rec_pid = subprocess.Popen(cmd, shell=True, preexec_fn=os.setpgrp).pid
         print("location:" + location)
         print("cmd:" + cmd)
